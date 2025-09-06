@@ -49,7 +49,9 @@ class OneViewModel(
             for (i in 0 until jsonItems.length()) {
                 val jsonItem = jsonItems.optJSONObject(i)
                 val name = jsonItem.optString("full_name")
-                val ownerIconUrl = jsonItem.optJSONObject("owner")!!.optString("avatar_url")
+                val ownerOptJSONObject = jsonItem.optJSONObject("owner")
+                if (ownerOptJSONObject == null) throw Exception("ownerOptJSONObject is null")
+                val ownerIconUrl = ownerOptJSONObject.optString("avatar_url")
                 val language = jsonItem.optString("language")
                 val stargazersCount = jsonItem.optLong("stargazers_count")
                 val watchersCount = jsonItem.optLong("watchers_count")
