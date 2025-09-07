@@ -25,6 +25,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import jp.co.yumemi.android.code_check.Item
 import jp.co.yumemi.android.code_check.R
+import jp.co.yumemi.android.code_check.ui.theme.CodeCheckTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -155,6 +156,7 @@ private fun RepositoryDetailScreenPreview() {
         forksCount = 4675,
         openIssuesCount = 131
     )
-    
-    RepositoryDetailScreen(item = sampleItem)
+    CodeCheckTheme {
+        RepositoryDetailScreen(item = sampleItem)
+    }
 }
