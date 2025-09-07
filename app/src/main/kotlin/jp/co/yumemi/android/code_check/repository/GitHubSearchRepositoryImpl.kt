@@ -9,30 +9,33 @@ import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.isSuccess
+import jakarta.inject.Inject
 import jp.co.yumemi.android.code_check.model.Item
 import org.json.JSONObject
 
-class GitHubSearchRepositoryImpl : GitHubSearchRepository {
+class GitHubSearchRepositoryImpl @Inject constructor() : GitHubSearchRepository {
     override suspend fun search(query: String): GitHubSearchRepositoryResponse {
         val client = HttpClient(Android)
-        val response: HttpResponse =
-            client.get("https://api.github.com/search/repositories") {
+        return runCatching {
+            val response: HttpResponse = client.get("https://api.github.com/search/repositories") {
                 header("Accept", "application/vnd.github.v3+json")
                 parameter("q", query)
             }
 
-        if (!response.status.isSuccess()) {
-            Log.e("Search Repositories Error", response.status.toString())
-            return GitHubSearchRepositoryResponse.Error
-        }
+            if (!response.status.isSuccess()) {
+                throw IllegalStateException("API call failed with status: ${response.status}")
+            }
 
-        try {
-            val items = response.toItems()
-            return GitHubSearchRepositoryResponse.Success(items)
-        } catch (e: Exception) {
-            Log.e("JSON Parsing Error", e.toString())
-            return GitHubSearchRepositoryResponse.Error
-        }
+            response.toItems()
+        }.fold(
+            onSuccess = { items ->
+                GitHubSearchRepositoryResponse.Success(items)
+            },
+            onFailure = { throwable ->
+                Log.e("API Call Error", throwable.toString())
+                GitHubSearchRepositoryResponse.Error
+            }
+        )
     }
 }
 
