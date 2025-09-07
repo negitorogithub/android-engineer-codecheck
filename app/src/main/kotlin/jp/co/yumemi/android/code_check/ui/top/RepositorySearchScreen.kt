@@ -157,7 +157,6 @@ fun RepositorySearchScreen(
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center
                             ) {
-
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     Text(
                                         text = stringResource(R.string.error_message),
@@ -173,7 +172,6 @@ fun RepositorySearchScreen(
                                         Text(text = stringResource(R.string.retry))
                                     }
                                 }
-
                             }
                         }
 
