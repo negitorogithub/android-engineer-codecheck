@@ -3,6 +3,7 @@
  */
 package jp.co.yumemi.android.code_check
 
+import android.content.Context
 import android.os.Parcelable
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -21,13 +22,16 @@ import org.json.JSONObject
 import java.util.*
 
 /**
- * OneFragment で使う
+ * TwoFragment で使う
  */
-class OneViewModel() : ViewModel() {
+class OneViewModel(
+    val context: Context
+) : ViewModel() {
 
     // 検索結果
     fun searchResults(inputText: String): List<Item> = runBlocking {
         val client = HttpClient(Android)
+
         return@runBlocking GlobalScope.async {
             try {
                 val response: HttpResponse =
@@ -43,21 +47,25 @@ class OneViewModel() : ViewModel() {
 
 
                 val jsonBody = JSONObject(response.receive<String>())
-                val jsonItems = jsonBody.optJSONArray("items")!!
+                val jsonItems = jsonBody.optJSONArray("items")
+                if (jsonItems == null) throw Exception("jsonItems is null")
                 val items = mutableListOf<Item>()
 
-                /**
-                 * アイテムの個数分ループする
-                 */
-                for (i in 0 until jsonItems.length()) {
-                    val jsonItem = jsonItems.optJSONObject(i)!!
-                    val name = jsonItem.optString("full_name")
-                    val ownerIconUrl = jsonItem.optJSONObject("owner")!!.optString("avatar_url")
-                    val language = jsonItem.optString("language")
-                    val stargazersCount = jsonItem.optLong("stargazers_count")
-                    val watchersCount = jsonItem.optLong("watchers_count")
-                    val forksCount = jsonItem.optLong("forks_count")
-                    val openIssuesCount = jsonItem.optLong("open_issues_count")
+
+            /**
+             * アイテムの個数分ループする
+             */
+            for (i in 0 until jsonItems.length()) {
+                val jsonItem = jsonItems.optJSONObject(i)
+                val name = jsonItem.optString("full_name")
+                val ownerOptJSONObject = jsonItem.optJSONObject("owner")
+                if (ownerOptJSONObject == null) throw Exception("ownerOptJSONObject is null")
+                val ownerIconUrl = ownerOptJSONObject.optString("avatar_url")
+                val language = jsonItem.optString("language")
+                val stargazersCount = jsonItem.optLong("stargazers_count")
+                val watchersCount = jsonItem.optLong("watchers_count")
+                val forksCount = jsonItem.optLong("forks_conut")
+                val openIssuesCount = jsonItem.optLong("open_issues_count")
 
                     items.add(
                         Item(
