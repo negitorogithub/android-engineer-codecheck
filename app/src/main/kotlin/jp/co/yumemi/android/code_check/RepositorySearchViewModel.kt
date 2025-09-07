@@ -87,7 +87,6 @@ class RepositorySearchViewModel() : ViewModel() {
                     )
                 }
                 lastSearchDate = Date()
-                items.toList()
                 val result = RepositorySearchUiState.Success(items)
                 _uiState.update { result }
             } catch (e: Exception) {
