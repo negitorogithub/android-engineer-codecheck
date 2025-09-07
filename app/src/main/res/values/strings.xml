@@ -2,4 +2,12 @@
     <string name="app_name">Android Engineer CodeCheck</string>
     <string name="searchInputText_hint">GitHub のリポジトリを検索できるよー</string>
     <string name="written_language">Written in %s</string>
+    <string name="repository_details">Repository Details</string>
+    <string name="back">Back</string>
+    <string name="owner_icon">Owner Icon</string>
+    <string name="language_not_specified">Language not specified</string>
+    <string name="stars_count">%d stars</string>
+    <string name="watchers_count">%d watchers</string>
+    <string name="forks_count">%d forks</string>
+    <string name="open_issues_count">%d open issues</string>
 </resources>

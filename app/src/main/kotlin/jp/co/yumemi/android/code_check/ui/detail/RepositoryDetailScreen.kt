@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -36,12 +37,12 @@ fun RepositoryDetailScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Repository Details") },
+                title = { Text(stringResource(R.string.repository_details)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
                             painter = painterResource(id = android.R.drawable.ic_menu_revert),
-                            contentDescription = "Back"
+                            contentDescription = stringResource(R.string.back)
                         )
                     }
                 }
@@ -62,7 +63,7 @@ fun RepositoryDetailScreen(
                     .data(item.ownerIconUrl)
                     .crossfade(true)
                     .build(),
-                contentDescription = "Owner Icon",
+                contentDescription = stringResource(R.string.owner_icon),
                 modifier = Modifier
                     .size(240.dp)
                     .clip(CircleShape),
@@ -94,7 +95,9 @@ fun RepositoryDetailScreen(
                     horizontalAlignment = Alignment.Start
                 ) {
                     Text(
-                        text = if (item.language.isNotEmpty()) "Written in ${item.language}" else "Language not specified",
+                        text = if (item.language.isNotEmpty()) 
+                            stringResource(R.string.written_language, item.language) 
+                            else stringResource(R.string.language_not_specified),
                         fontSize = 14.sp,
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
@@ -106,19 +109,19 @@ fun RepositoryDetailScreen(
                     horizontalAlignment = Alignment.End
                 ) {
                     StatisticItem(
-                        text = "${item.stargazersCount} stars",
+                        text = stringResource(R.string.stars_count, item.stargazersCount),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                     )
                     StatisticItem(
-                        text = "${item.watchersCount} watchers",
+                        text = stringResource(R.string.watchers_count, item.watchersCount),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                     )
                     StatisticItem(
-                        text = "${item.forksCount} forks",
+                        text = stringResource(R.string.forks_count, item.forksCount),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                     )
                     StatisticItem(
-                        text = "${item.openIssuesCount} open issues",
+                        text = stringResource(R.string.open_issues_count, item.openIssuesCount),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                     )
                 }
