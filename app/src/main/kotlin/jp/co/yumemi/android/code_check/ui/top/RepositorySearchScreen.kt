@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,11 +18,14 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -31,11 +35,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,7 +54,7 @@ import jp.co.yumemi.android.code_check.ui.theme.CodeCheckTheme
 fun RepositorySearchScreen(
     onRepositoryClick: (Item) -> Unit,
     onSearch: (String) -> Unit,
-    repositories: List<Item>
+    uiState: RepositorySearchUiState
 ) {
     var searchText by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -85,7 +91,7 @@ fun RepositorySearchScreen(
                             leadingIcon = {
                                 Icon(
                                     imageVector = Icons.Default.Search,
-                                    contentDescription = "Search",
+                                    contentDescription = stringResource(R.string.search_content_description),
                                     tint = Color.Gray
                                 )
                             },
@@ -94,7 +100,7 @@ fun RepositorySearchScreen(
                                     IconButton(onClick = { searchText = "" }) {
                                         Icon(
                                             imageVector = Icons.Default.Clear,
-                                            contentDescription = "Clear",
+                                            contentDescription = stringResource(R.string.clear_content_description),
                                             tint = Color.Gray
                                         )
                                     }
@@ -123,22 +129,59 @@ fun RepositorySearchScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // Repository List
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(1.dp)
-                    ) {
-                        items(repositories) { repository ->
-                            RepositoryItem(
-                                item = repository,
-                                onClick = { onRepositoryClick(repository) }
-                            )
+                    // Content based on UI State
+                    when (uiState) {
+                        is RepositorySearchUiState.Loading -> {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator()
+                            }
+                        }
+
+                        is RepositorySearchUiState.Error -> {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Text(
+                                        text = stringResource(R.string.error_message),
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        textAlign = TextAlign.Center,
+                                        color = MaterialTheme.colorScheme.error
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Button(
+                                        onClick = { onSearch(searchText) },
+                                        modifier = Modifier.width(120.dp)
+                                    ) {
+                                        Text(text = stringResource(R.string.retry))
+                                    }
+                                }
+
+                            }
+                        }
+
+                        is RepositorySearchUiState.Success -> {
+                            LazyColumn(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.spacedBy(1.dp)
+                            ) {
+                                items(uiState.repositories) { repository ->
+                                    RepositoryItem(
+                                        item = repository,
+                                        onClick = { onRepositoryClick(repository) }
+                                    )
+                                }
+                            }
                         }
                     }
                 }
             }
         })
-
 }
 
 @Composable
@@ -170,18 +213,20 @@ fun RepositorySearchScreenPreview() {
         RepositorySearchScreen(
             onRepositoryClick = { },
             onSearch = { },
-            repositories = (1..10).map {
-                Item(
-                    name = "JetBrains/compose",
-                    ownerIconUrl = "",
-                    language = "",
-                    stargazersCount = 0,
-                    watchersCount = 0,
-                    forksCount = 0,
-                    openIssuesCount = 0,
-                )
-            })
-
+            uiState = RepositorySearchUiState.Success(
+                repositories = (1..10).map {
+                    Item(
+                        name = "JetBrains/compose",
+                        ownerIconUrl = "",
+                        language = "",
+                        stargazersCount = 0,
+                        watchersCount = 0,
+                        forksCount = 0,
+                        openIssuesCount = 0,
+                    )
+                }
+            )
+        )
     }
 }
 
@@ -200,6 +245,32 @@ fun RepositoryItemPreview() {
                 openIssuesCount = 0,
             ),
             onClick = {}
+        )
+    }
+}
+
+
+
+@PreviewLightDark
+@Composable
+fun RepositorySearchScreenLoadingPreview() {
+    CodeCheckTheme {
+        RepositorySearchScreen(
+            onRepositoryClick = { },
+            onSearch = { },
+            uiState = RepositorySearchUiState.Loading
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+fun RepositorySearchScreenErrorPreview() {
+    CodeCheckTheme {
+        RepositorySearchScreen(
+            onRepositoryClick = { },
+            onSearch = { },
+            uiState = RepositorySearchUiState.Error
         )
     }
 }
