@@ -8,7 +8,6 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import jp.co.yumemi.android.code_check.OneFragmentDirections
 import jp.co.yumemi.android.code_check.OneViewModel
 import jp.co.yumemi.android.code_check.R
 import jp.co.yumemi.android.code_check.model.Item
@@ -22,7 +21,7 @@ class RepositorySearchFragment: Fragment(R.layout.fragment_one) {
     ): View {
         val viewModel = OneViewModel()
         fun gotoRepositoryFragment(item: Item) {
-            val action = OneFragmentDirections
+            val action = RepositorySearchFragmentDirections
                 .actionRepositoriesFragmentToRepositoryFragment(item = item)
             findNavController().navigate(action)
         }
