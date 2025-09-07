@@ -12,7 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -79,7 +78,6 @@ fun RepositoryDetailScreen(
                 text = item.name,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color.Black,
                 textAlign = TextAlign.Center
             )
             
@@ -98,7 +96,6 @@ fun RepositoryDetailScreen(
                     Text(
                         text = if (item.language.isNotEmpty()) "Written in ${item.language}" else "Language not specified",
                         fontSize = 14.sp,
-                        color = Color.Black,
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
                 }
@@ -138,7 +135,6 @@ private fun StatisticItem(
     Text(
         text = text,
         fontSize = 12.sp,
-        color = Color.Black,
         textAlign = TextAlign.End,
         modifier = modifier
     )
