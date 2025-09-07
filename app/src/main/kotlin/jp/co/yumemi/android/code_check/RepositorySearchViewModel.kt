@@ -5,8 +5,10 @@ package jp.co.yumemi.android.code_check
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import jakarta.inject.Inject
 import jp.co.yumemi.android.code_check.TopActivity.Companion.lastSearchDate
-import jp.co.yumemi.android.code_check.repository.GitHubSearchRepositoryImpl
+import jp.co.yumemi.android.code_check.repository.GitHubSearchRepository
 import jp.co.yumemi.android.code_check.repository.GitHubSearchRepositoryResponse
 import jp.co.yumemi.android.code_check.ui.top.RepositorySearchUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +20,10 @@ import java.util.Date
 /**
  * TwoFragment で使う
  */
-class RepositorySearchViewModel() : ViewModel() {
+@HiltViewModel
+class RepositorySearchViewModel @Inject constructor(
+    private val repository: GitHubSearchRepository
+) : ViewModel() {
 
     private val _uiState: MutableStateFlow<RepositorySearchUiState> = MutableStateFlow(
         RepositorySearchUiState.WaitingInput
@@ -29,7 +34,6 @@ class RepositorySearchViewModel() : ViewModel() {
     fun searchResults(inputText: String) {
         viewModelScope.launch {
             _uiState.update { RepositorySearchUiState.Loading }
-            val repository = GitHubSearchRepositoryImpl()
             val response = repository.search(inputText)
             lastSearchDate = Date()
 
