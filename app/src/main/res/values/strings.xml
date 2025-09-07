@@ -15,4 +15,5 @@
     <string name="error_message">エラーが発生しました</string>
     <string name="retry">リトライ</string>
     <string name="waiting_input">入力待機中です…</string>
+    <string name="no_results_found">検索結果が見つかりませんでした</string>
 </resources>

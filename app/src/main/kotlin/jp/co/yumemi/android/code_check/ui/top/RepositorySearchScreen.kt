@@ -178,15 +178,28 @@ fun RepositorySearchScreen(
                         }
 
                         is RepositorySearchUiState.Success -> {
-                            LazyColumn(
-                                modifier = Modifier.fillMaxSize(),
-                                verticalArrangement = Arrangement.spacedBy(1.dp)
-                            ) {
-                                items(uiState.repositories) { repository ->
-                                    RepositoryItem(
-                                        item = repository,
-                                        onClick = { onRepositoryClick(repository) }
+                            if (uiState.repositories.isEmpty()) {
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.no_results_found),
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        textAlign = TextAlign.Center,
                                     )
+                                }
+                            } else {
+                                LazyColumn(
+                                    modifier = Modifier.fillMaxSize(),
+                                    verticalArrangement = Arrangement.spacedBy(1.dp)
+                                ) {
+                                    items(uiState.repositories) { repository ->
+                                        RepositoryItem(
+                                            item = repository,
+                                            onClick = { onRepositoryClick(repository) }
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -293,6 +306,18 @@ fun RepositorySearchScreenErrorPreview() {
             onRepositoryClick = { },
             onSearch = { },
             uiState = RepositorySearchUiState.Error
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+fun RepositorySearchScreenEmptyResultsPreview() {
+    CodeCheckTheme {
+        RepositorySearchScreen(
+            onRepositoryClick = { },
+            onSearch = { },
+            uiState = RepositorySearchUiState.Success(repositories = emptyList())
         )
     }
 }
