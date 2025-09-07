@@ -4,16 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import jp.co.yumemi.android.code_check.RepositorySearchViewModel
 import jp.co.yumemi.android.code_check.R
+import jp.co.yumemi.android.code_check.RepositorySearchViewModel
 import jp.co.yumemi.android.code_check.model.Item
 import jp.co.yumemi.android.code_check.ui.theme.CodeCheckTheme
 
-class RepositorySearchFragment: Fragment(R.layout.fragment_one) {
+class RepositorySearchFragment : Fragment(R.layout.fragment_one) {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,11 +31,12 @@ class RepositorySearchFragment: Fragment(R.layout.fragment_one) {
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
+                val state by viewModel.uiState.collectAsState()
                 CodeCheckTheme {
                     RepositorySearchScreen(
                         onRepositoryClick = { gotoRepositoryFragment(it) },
                         onSearch = viewModel::searchResults,
-                        uiState = RepositorySearchUiState.WaitingInput
+                        uiState = state
                     )
                 }
             }
