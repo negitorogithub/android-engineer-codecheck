@@ -68,8 +68,6 @@ fun RepositoryDetailScreen(
                     .size(240.dp)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop,
-                placeholder = painterResource(id = R.drawable.jetbrains),
-                error = painterResource(id = R.drawable.jetbrains)
             )
             
             Spacer(modifier = Modifier.height(16.dp))
