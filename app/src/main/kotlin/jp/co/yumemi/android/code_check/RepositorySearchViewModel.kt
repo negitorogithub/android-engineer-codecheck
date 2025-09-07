@@ -17,6 +17,9 @@ import jp.co.yumemi.android.code_check.TopActivity.Companion.lastSearchDate
 import jp.co.yumemi.android.code_check.model.Item
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import java.util.Date
@@ -26,11 +29,14 @@ import java.util.Date
  */
 class RepositorySearchViewModel() : ViewModel() {
 
+    private val _searchResultsState: MutableStateFlow<List<Item>> = MutableStateFlow(emptyList())
+    val searchResultsState: StateFlow<List<Item>> = _searchResultsState
+
     // 検索結果
-    fun searchResults(inputText: String): List<Item> = runBlocking {
+    fun searchResults(inputText: String): Unit = runBlocking {
         val client = HttpClient(Android)
 
-        return@runBlocking GlobalScope.async {
+        val result = GlobalScope.async {
             try {
                 val response: HttpResponse =
                     client.get("https://api.github.com/search/repositories") {
@@ -86,5 +92,6 @@ class RepositorySearchViewModel() : ViewModel() {
                 client.close()
             }
         }.await()
+        _searchResultsState.update { result }
     }
 }

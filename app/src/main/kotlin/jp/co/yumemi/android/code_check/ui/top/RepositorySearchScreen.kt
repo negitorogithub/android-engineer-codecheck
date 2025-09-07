@@ -46,11 +46,11 @@ import jp.co.yumemi.android.code_check.ui.theme.CodeCheckTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RepositorySearchScreen(
-    onRepositoryClick: (Item) -> Unit = {},
-    search: (String) -> List<Item>,
+    onRepositoryClick: (Item) -> Unit,
+    onSearch: (String) -> Unit,
+    repositories: List<Item>
 ) {
     var searchText by remember { mutableStateOf("") }
-    var repositories by remember { mutableStateOf<List<Item>>(emptyList()) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Scaffold(
@@ -106,7 +106,7 @@ fun RepositorySearchScreen(
                             keyboardActions = KeyboardActions(
                                 onSearch = {
                                     if (searchText.isNotEmpty()) {
-                                        repositories = search(searchText)
+                                        onSearch(searchText)
                                         keyboardController?.hide()
                                     }
                                 }
@@ -167,7 +167,21 @@ fun RepositoryItem(
 @Composable
 fun RepositorySearchScreenPreview() {
     CodeCheckTheme {
-        RepositorySearchScreen(search = { emptyList() })
+        RepositorySearchScreen(
+            onRepositoryClick = { },
+            onSearch = { },
+            repositories = (1..10).map {
+                Item(
+                    name = "JetBrains/compose",
+                    ownerIconUrl = "",
+                    language = "",
+                    stargazersCount = 0,
+                    watchersCount = 0,
+                    forksCount = 0,
+                    openIssuesCount = 0,
+                )
+            })
+
     }
 }
 
