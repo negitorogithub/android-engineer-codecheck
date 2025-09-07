@@ -131,6 +131,18 @@ fun RepositorySearchScreen(
 
                     // Content based on UI State
                     when (uiState) {
+                        is RepositorySearchUiState.WaitingInput -> {
+                            Box(
+                                modifier = Modifier.fillMaxSize()
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.waiting_input),
+                                    modifier = Modifier.align(Alignment.Center),
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                            }
+                        }
+
                         is RepositorySearchUiState.Loading -> {
                             Box(
                                 modifier = Modifier.fillMaxSize(),
@@ -249,7 +261,17 @@ fun RepositoryItemPreview() {
     }
 }
 
-
+@PreviewLightDark
+@Composable
+fun RepositorySearchScreenWaitingInputPreview() {
+    CodeCheckTheme {
+        RepositorySearchScreen(
+            onRepositoryClick = { },
+            onSearch = { },
+            uiState = RepositorySearchUiState.WaitingInput
+        )
+    }
+}
 
 @PreviewLightDark
 @Composable
