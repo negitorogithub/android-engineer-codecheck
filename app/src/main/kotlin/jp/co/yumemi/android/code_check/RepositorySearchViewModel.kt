@@ -24,7 +24,7 @@ import java.util.Date
 /**
  * TwoFragment で使う
  */
-class OneViewModel() : ViewModel() {
+class RepositorySearchViewModel() : ViewModel() {
 
     // 検索結果
     fun searchResults(inputText: String): List<Item> = runBlocking {
