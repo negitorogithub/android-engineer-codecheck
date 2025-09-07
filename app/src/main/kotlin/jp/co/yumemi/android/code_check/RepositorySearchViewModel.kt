@@ -5,6 +5,7 @@ package jp.co.yumemi.android.code_check
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import io.ktor.client.HttpClient
 import io.ktor.client.call.receive
 import io.ktor.client.engine.android.Android
@@ -15,7 +16,6 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.isSuccess
 import jp.co.yumemi.android.code_check.TopActivity.Companion.lastSearchDate
 import jp.co.yumemi.android.code_check.model.Item
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -36,7 +36,7 @@ class RepositorySearchViewModel() : ViewModel() {
     fun searchResults(inputText: String): Unit = runBlocking {
         val client = HttpClient(Android)
 
-        val result = GlobalScope.async {
+        val result = viewModelScope.async {
             try {
                 val response: HttpResponse =
                     client.get("https://api.github.com/search/repositories") {
