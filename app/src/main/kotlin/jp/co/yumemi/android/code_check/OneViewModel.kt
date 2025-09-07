@@ -49,20 +49,20 @@ class OneViewModel() : ViewModel() {
                 val items = mutableListOf<Item>()
 
 
-            /**
-             * アイテムの個数分ループする
-             */
-            for (i in 0 until jsonItems.length()) {
-                val jsonItem = jsonItems.optJSONObject(i)
-                val name = jsonItem.optString("full_name")
-                val ownerOptJSONObject = jsonItem.optJSONObject("owner")
-                if (ownerOptJSONObject == null) throw Exception("ownerOptJSONObject is null")
-                val ownerIconUrl = ownerOptJSONObject.optString("avatar_url")
-                val language = jsonItem.optString("language")
-                val stargazersCount = jsonItem.optLong("stargazers_count")
-                val watchersCount = jsonItem.optLong("watchers_count")
-                val forksCount = jsonItem.optLong("forks_conut")
-                val openIssuesCount = jsonItem.optLong("open_issues_count")
+                /**
+                 * アイテムの個数分ループする
+                 */
+                for (i in 0 until jsonItems.length()) {
+                    val jsonItem = jsonItems.optJSONObject(i)
+                    val name = jsonItem.optString("full_name")
+                    val ownerOptJSONObject = jsonItem.optJSONObject("owner")
+                    if (ownerOptJSONObject == null) throw Exception("ownerOptJSONObject is null")
+                    val ownerIconUrl = ownerOptJSONObject.optString("avatar_url")
+                    val language = jsonItem.optString("language")
+                    val stargazersCount = jsonItem.optLong("stargazers_count")
+                    val watchersCount = jsonItem.optLong("watchers_count")
+                    val forksCount = jsonItem.optLong("forks_conut")
+                    val openIssuesCount = jsonItem.optLong("open_issues_count")
 
                     items.add(
                         Item(
