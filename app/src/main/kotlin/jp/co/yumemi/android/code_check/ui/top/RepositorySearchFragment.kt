@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
@@ -27,15 +25,15 @@ class RepositorySearchFragment: Fragment(R.layout.fragment_one) {
                 .actionRepositoriesFragmentToRepositoryFragment(item = item)
             findNavController().navigate(action)
         }
+
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                val repositories by viewModel.searchResultsState.collectAsState()
                 CodeCheckTheme {
                     RepositorySearchScreen(
                         onRepositoryClick = { gotoRepositoryFragment(it) },
                         onSearch = viewModel::searchResults,
-                        repositories = repositories
+                        uiState = RepositorySearchUiState.WaitingInput
                     )
                 }
             }
