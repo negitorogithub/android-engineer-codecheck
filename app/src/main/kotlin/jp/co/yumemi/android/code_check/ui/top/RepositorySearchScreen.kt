@@ -2,6 +2,7 @@ package jp.co.yumemi.android.code_check.ui.top
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -54,87 +55,90 @@ fun RepositorySearchScreen(
 
     Scaffold(
         content = { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                // Search Bar
-                Card(
+            Box(modifier = Modifier.padding(paddingValues)) {
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp),
-                    shape = RoundedCornerShape(12.dp),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+                        .fillMaxSize()
+                        .padding(8.dp)
                 ) {
-                    OutlinedTextField(
-                        value = searchText,
-                        onValueChange = { searchText = it },
+                    // Search Bar
+                    Card(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 4.dp),
-                        placeholder = {
-                            Text(
-                                text = stringResource(R.string.searchInputText_hint),
-                                fontSize = 12.sp,
-                                color = Color.Gray
-                            )
-                        },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = "Search",
-                                tint = Color.Gray
-                            )
-                        },
-                        trailingIcon = {
-                            if (searchText.isNotEmpty()) {
-                                IconButton(onClick = { searchText = "" }) {
-                                    Icon(
-                                        imageVector = Icons.Default.Clear,
-                                        contentDescription = "Clear",
-                                        tint = Color.Gray
-                                    )
-                                }
-                            }
-                        },
-                        keyboardOptions = KeyboardOptions(
-                            imeAction = ImeAction.Search
-                        ),
-                        keyboardActions = KeyboardActions(
-                            onSearch = {
+                            .fillMaxWidth()
+                            .height(56.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+                    ) {
+                        OutlinedTextField(
+                            value = searchText,
+                            onValueChange = { searchText = it },
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(horizontal = 4.dp),
+                            placeholder = {
+                                Text(
+                                    text = stringResource(R.string.searchInputText_hint),
+                                    fontSize = 12.sp,
+                                    color = Color.Gray
+                                )
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Default.Search,
+                                    contentDescription = "Search",
+                                    tint = Color.Gray
+                                )
+                            },
+                            trailingIcon = {
                                 if (searchText.isNotEmpty()) {
-                                    repositories = search(searchText)
-                                    keyboardController?.hide()
+                                    IconButton(onClick = { searchText = "" }) {
+                                        Icon(
+                                            imageVector = Icons.Default.Clear,
+                                            contentDescription = "Clear",
+                                            tint = Color.Gray
+                                        )
+                                    }
                                 }
-                            }
-                        ),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = Color.Transparent,
-                            unfocusedBorderColor = Color.Transparent,
-                            disabledBorderColor = Color.Transparent,
-                            errorBorderColor = Color.Transparent,
-                        ),
-                        singleLine = true
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                // Repository List
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(1.dp)
-                ) {
-                    items(repositories) { repository ->
-                        RepositoryItem(
-                            item = repository,
-                            onClick = { onRepositoryClick(repository) }
+                            },
+                            keyboardOptions = KeyboardOptions(
+                                imeAction = ImeAction.Search
+                            ),
+                            keyboardActions = KeyboardActions(
+                                onSearch = {
+                                    if (searchText.isNotEmpty()) {
+                                        repositories = search(searchText)
+                                        keyboardController?.hide()
+                                    }
+                                }
+                            ),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = Color.Transparent,
+                                unfocusedBorderColor = Color.Transparent,
+                                disabledBorderColor = Color.Transparent,
+                                errorBorderColor = Color.Transparent,
+                            ),
+                            singleLine = true
                         )
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // Repository List
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(1.dp)
+                    ) {
+                        items(repositories) { repository ->
+                            RepositoryItem(
+                                item = repository,
+                                onClick = { onRepositoryClick(repository) }
+                            )
+                        }
                     }
                 }
             }
         })
+
 }
 
 @Composable
@@ -146,6 +150,7 @@ fun RepositoryItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() },
+        shape = RoundedCornerShape(0.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Text(
