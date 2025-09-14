@@ -17,9 +17,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Date
 
-/**
- * TwoFragment で使う
- */
 @HiltViewModel
 class RepositorySearchViewModel @Inject constructor(
     private val repository: GitHubSearchRepository
