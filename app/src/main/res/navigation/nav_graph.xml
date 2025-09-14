@@ -9,7 +9,7 @@
         android:id="@+id/repositorySearchFragment"
         android:name="jp.co.yumemi.android.code_check.ui.top.RepositorySearchFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_one">
+        tools:layout="@layout/fragment_repository_search">
         <action
             android:id="@+id/action_repositoriesFragment_to_repositoryFragment"
             app:destination="@id/RepositoryDetailFragment" />
