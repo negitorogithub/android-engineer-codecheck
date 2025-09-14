@@ -12,7 +12,7 @@ data class GitHubSearchResponse(
 data class GitHubRepositoryRaw(
     @param:Json(name = "full_name") val fullName: String,
     val owner: Owner,
-    val language: String,
+    val language: String?,
     @param:Json(name = "stargazers_count") val stargazersCount: Long,
     @param:Json(name = "watchers_count") val watchersCount: Long,
     @param:Json(name = "forks_count") val forksCount: Long,
@@ -29,7 +29,7 @@ fun GitHubRepositoryRaw.toGithubRepository(): GithubRepository {
     return GithubRepository(
         name = fullName,
         ownerIconUrl = owner.avatarUrl,
-        language = language,
+        language = language ?: "",
         stargazersCount = stargazersCount,
         watchersCount = watchersCount,
         forksCount = forksCount,
