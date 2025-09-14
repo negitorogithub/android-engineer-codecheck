@@ -46,13 +46,13 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import jp.co.yumemi.android.code_check.R
-import jp.co.yumemi.android.code_check.model.Item
+import jp.co.yumemi.android.code_check.model.GithubRepository
 import jp.co.yumemi.android.code_check.ui.theme.CodeCheckTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RepositorySearchScreen(
-    onRepositoryClick: (Item) -> Unit,
+    onRepositoryClick: (GithubRepository) -> Unit,
     onSearch: (String) -> Unit,
     uiState: RepositorySearchUiState
 ) {
@@ -194,7 +194,7 @@ fun RepositorySearchScreen(
                                 ) {
                                     items(uiState.repositories) { repository ->
                                         RepositoryItem(
-                                            item = repository,
+                                            githubRepository = repository,
                                             onClick = { onRepositoryClick(repository) }
                                         )
                                     }
@@ -209,7 +209,7 @@ fun RepositorySearchScreen(
 
 @Composable
 fun RepositoryItem(
-    item: Item,
+    githubRepository: GithubRepository,
     onClick: () -> Unit
 ) {
     Card(
@@ -220,7 +220,7 @@ fun RepositoryItem(
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Text(
-            text = item.name,
+            text = githubRepository.name,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
@@ -238,7 +238,7 @@ fun RepositorySearchScreenPreview() {
             onSearch = { },
             uiState = RepositorySearchUiState.Success(
                 repositories = (1..10).map {
-                    Item(
+                    GithubRepository(
                         name = "JetBrains/compose",
                         ownerIconUrl = "",
                         language = "",
@@ -258,7 +258,7 @@ fun RepositorySearchScreenPreview() {
 fun RepositoryItemPreview() {
     CodeCheckTheme {
         RepositoryItem(
-            item = Item(
+            githubRepository = GithubRepository(
                 name = "JetBrains/compose",
                 ownerIconUrl = "",
                 language = "",

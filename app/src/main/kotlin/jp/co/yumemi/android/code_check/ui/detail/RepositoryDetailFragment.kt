@@ -28,7 +28,7 @@ class RepositoryDetailFragment : Fragment() {
             setContent {
                 CodeCheckTheme {
                     RepositoryDetailScreen(
-                        item = args.item
+                        githubRepository = args.item
                     ) {
                         findNavController().popBackStack()
                     }

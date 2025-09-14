@@ -3,18 +3,32 @@
  */
 package jp.co.yumemi.android.code_check.ui.detail
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -24,13 +38,13 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import jp.co.yumemi.android.code_check.R
-import jp.co.yumemi.android.code_check.model.Item
+import jp.co.yumemi.android.code_check.model.GithubRepository
 import jp.co.yumemi.android.code_check.ui.theme.CodeCheckTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RepositoryDetailScreen(
-    item: Item,
+    githubRepository: GithubRepository,
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {},
 ) {
@@ -41,7 +55,7 @@ fun RepositoryDetailScreen(
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
-                            painter = painterResource(id = android.R.drawable.ic_menu_revert),
+                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = stringResource(R.string.back)
                         )
                     }
@@ -60,7 +74,7 @@ fun RepositoryDetailScreen(
             // Owner Icon
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(item.ownerIconUrl)
+                    .data(githubRepository.ownerIconUrl)
                     .crossfade(true)
                     .build(),
                 contentDescription = stringResource(R.string.owner_icon),
@@ -68,15 +82,13 @@ fun RepositoryDetailScreen(
                     .size(240.dp)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop,
-                placeholder = painterResource(id = R.drawable.jetbrains),
-                error = painterResource(id = R.drawable.jetbrains)
             )
             
             Spacer(modifier = Modifier.height(16.dp))
             
             // Repository Name
             Text(
-                text = item.name,
+                text = githubRepository.name,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center
@@ -95,8 +107,8 @@ fun RepositoryDetailScreen(
                     horizontalAlignment = Alignment.Start
                 ) {
                     Text(
-                        text = if (item.language.isNotEmpty()) 
-                            stringResource(R.string.written_language, item.language) 
+                        text = if (githubRepository.language.isNotEmpty())
+                            stringResource(R.string.written_language, githubRepository.language)
                             else stringResource(R.string.language_not_specified),
                         fontSize = 14.sp,
                         modifier = Modifier.padding(horizontal = 16.dp)
@@ -109,19 +121,19 @@ fun RepositoryDetailScreen(
                     horizontalAlignment = Alignment.End
                 ) {
                     StatisticItem(
-                        text = stringResource(R.string.stars_count, item.stargazersCount),
+                        text = stringResource(R.string.stars_count, githubRepository.stargazersCount),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                     )
                     StatisticItem(
-                        text = stringResource(R.string.watchers_count, item.watchersCount),
+                        text = stringResource(R.string.watchers_count, githubRepository.watchersCount),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                     )
                     StatisticItem(
-                        text = stringResource(R.string.forks_count, item.forksCount),
+                        text = stringResource(R.string.forks_count, githubRepository.forksCount),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                     )
                     StatisticItem(
-                        text = stringResource(R.string.open_issues_count, item.openIssuesCount),
+                        text = stringResource(R.string.open_issues_count, githubRepository.openIssuesCount),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                     )
                 }
@@ -146,7 +158,7 @@ private fun StatisticItem(
 @PreviewLightDark
 @Composable
 private fun RepositoryDetailScreenPreview() {
-    val sampleItem = Item(
+    val sampleGithubRepository = GithubRepository(
         name = "JetBrains/kotlin",
         ownerIconUrl = "https://avatars.githubusercontent.com/u/878437?v=4",
         language = "Kotlin",
@@ -156,6 +168,6 @@ private fun RepositoryDetailScreenPreview() {
         openIssuesCount = 131
     )
     CodeCheckTheme {
-        RepositoryDetailScreen(item = sampleItem)
+        RepositoryDetailScreen(githubRepository = sampleGithubRepository)
     }
 }
