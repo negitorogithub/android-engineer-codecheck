@@ -20,7 +20,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "jp.co.yumemi.android.code_check.HiltTestRunner"
     }
 
     buildTypes {
@@ -97,6 +97,14 @@ dependencies {
     // hilt
     implementation "com.google.dagger:hilt-android:2.57.1"
     ksp "com.google.dagger:hilt-compiler:2.57.1"
+    
+    // hilt testing
+    androidTestImplementation "com.google.dagger:hilt-android-testing:2.57.1"
+    kspAndroidTest "com.google.dagger:hilt-compiler:2.57.1"
+    
+    // Fragment testing
+    androidTestImplementation "androidx.fragment:fragment-testing:1.8.9"
+    androidTestImplementation "androidx.navigation:navigation-testing:2.9.4"
 
     // Moshi for JSON parsing
     implementation 'com.squareup.moshi:moshi:1.15.0'
