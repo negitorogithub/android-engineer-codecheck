@@ -35,7 +35,7 @@ class RepositorySearchViewModel @Inject constructor(
                     _uiState.update { RepositorySearchUiState.Error }
                 }
                 is GitHubSearchRepositoryResponse.Success -> {
-                    val items = response.items
+                    val items = response.githubRepositories
                     val result = RepositorySearchUiState.Success(items)
                     _uiState.update { result }
 

@@ -10,7 +10,7 @@ import io.ktor.client.request.parameter
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.isSuccess
 import jakarta.inject.Inject
-import jp.co.yumemi.android.code_check.model.Item
+import jp.co.yumemi.android.code_check.model.GithubRepository
 import org.json.JSONObject
 
 class GitHubSearchRepositoryImpl @Inject constructor() : GitHubSearchRepository {
@@ -39,11 +39,11 @@ class GitHubSearchRepositoryImpl @Inject constructor() : GitHubSearchRepository 
     }
 }
 
-suspend fun HttpResponse.toItems(): List<Item> {
+suspend fun HttpResponse.toItems(): List<GithubRepository> {
     val jsonBody = JSONObject(this.receive<String>())
     val jsonItems = jsonBody.optJSONArray("items")
     if (jsonItems == null) throw Exception("Invalid JSON")
-    val items = mutableListOf<Item>()
+    val githubRepositories = mutableListOf<GithubRepository>()
 
 
     /**
@@ -61,8 +61,8 @@ suspend fun HttpResponse.toItems(): List<Item> {
         val forksCount = jsonItem.optLong("forks_count")
         val openIssuesCount = jsonItem.optLong("open_issues_count")
 
-        items.add(
-            Item(
+        githubRepositories.add(
+            GithubRepository(
                 name = name,
                 ownerIconUrl = ownerIconUrl,
                 language = language,
@@ -73,5 +73,5 @@ suspend fun HttpResponse.toItems(): List<Item> {
             )
         )
     }
-    return items
+    return githubRepositories
 }

@@ -13,8 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.yumemi.android.code_check.R
-import jp.co.yumemi.android.code_check.ui.top.RepositorySearchViewModel
-import jp.co.yumemi.android.code_check.model.Item
+import jp.co.yumemi.android.code_check.model.GithubRepository
 import jp.co.yumemi.android.code_check.ui.theme.CodeCheckTheme
 
 @AndroidEntryPoint
@@ -25,9 +24,9 @@ class RepositorySearchFragment : Fragment(R.layout.fragment_one) {
         savedInstanceState: Bundle?
     ): View {
         val viewModel: RepositorySearchViewModel by viewModels()
-        fun gotoRepositoryFragment(item: Item) {
+        fun gotoRepositoryFragment(githubRepository: GithubRepository) {
             val action = RepositorySearchFragmentDirections
-                .actionRepositoriesFragmentToRepositoryFragment(item = item)
+                .actionRepositoriesFragmentToRepositoryFragment(item = githubRepository)
             findNavController().navigate(action)
         }
 
