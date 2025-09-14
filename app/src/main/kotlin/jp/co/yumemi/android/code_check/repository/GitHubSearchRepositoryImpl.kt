@@ -3,7 +3,6 @@ package jp.co.yumemi.android.code_check.repository
 import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.call.receive
-import io.ktor.client.engine.android.Android
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
@@ -13,11 +12,12 @@ import jakarta.inject.Inject
 import jp.co.yumemi.android.code_check.model.GithubRepository
 import org.json.JSONObject
 
-class GitHubSearchRepositoryImpl @Inject constructor() : GitHubSearchRepository {
+class GitHubSearchRepositoryImpl @Inject constructor(
+    private val httpClient: HttpClient
+) : GitHubSearchRepository {
     override suspend fun search(query: String): GitHubSearchRepositoryResponse {
-        val client = HttpClient(Android)
         return runCatching {
-            val response: HttpResponse = client.get("https://api.github.com/search/repositories") {
+            val response: HttpResponse = httpClient.get("https://api.github.com/search/repositories") {
                 header("Accept", "application/vnd.github.v3+json")
                 parameter("q", query)
             }
