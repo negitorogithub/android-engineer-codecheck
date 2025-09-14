@@ -32,7 +32,6 @@ class TopActivityTest {
 
     @Test
     fun `TopActivityが起動する`() {
-        // Activityが正常に起動していることを確認
         activityRule.scenario.onActivity { activity ->
             assertNotNull(activity)
             assertTrue(activity is TopActivity)
