@@ -1,5 +1,6 @@
 package jp.co.yumemi.android.code_check.di
 
+import com.squareup.moshi.Moshi
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -26,6 +27,12 @@ abstract class CodeCheckModule {
         @Singleton
         fun provideHttpClient(): HttpClient {
             return HttpClient(Android)
+        }
+
+        @Provides
+        @Singleton
+        fun provideMoshi(): Moshi {
+            return Moshi.Builder().build()
         }
     }
 }
