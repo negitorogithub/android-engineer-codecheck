@@ -13,7 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import jp.co.yumemi.android.code_check.R
-import jp.co.yumemi.android.code_check.RepositorySearchViewModel
+import jp.co.yumemi.android.code_check.ui.top.RepositorySearchViewModel
 import jp.co.yumemi.android.code_check.model.Item
 import jp.co.yumemi.android.code_check.ui.theme.CodeCheckTheme
 

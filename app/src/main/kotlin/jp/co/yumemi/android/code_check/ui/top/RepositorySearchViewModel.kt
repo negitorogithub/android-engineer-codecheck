@@ -1,16 +1,12 @@
-/*
- * Copyright © 2021 YUMEMI Inc. All rights reserved.
- */
-package jp.co.yumemi.android.code_check
+package jp.co.yumemi.android.code_check.ui.top
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
-import jp.co.yumemi.android.code_check.TopActivity.Companion.lastSearchDate
+import jp.co.yumemi.android.code_check.TopActivity
 import jp.co.yumemi.android.code_check.repository.GitHubSearchRepository
 import jp.co.yumemi.android.code_check.repository.GitHubSearchRepositoryResponse
-import jp.co.yumemi.android.code_check.ui.top.RepositorySearchUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -32,7 +28,7 @@ class RepositorySearchViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { RepositorySearchUiState.Loading }
             val response = repository.search(inputText)
-            lastSearchDate = Date()
+            TopActivity.Companion.lastSearchDate = Date()
 
             when (response) {
                 is GitHubSearchRepositoryResponse.Error -> {
