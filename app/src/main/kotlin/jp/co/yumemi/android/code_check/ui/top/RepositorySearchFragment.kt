@@ -12,12 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import jp.co.yumemi.android.code_check.R
 import jp.co.yumemi.android.code_check.model.GithubRepository
 import jp.co.yumemi.android.code_check.ui.theme.CodeCheckTheme
 
 @AndroidEntryPoint
-class RepositorySearchFragment : Fragment(R.layout.fragment_one) {
+class RepositorySearchFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
