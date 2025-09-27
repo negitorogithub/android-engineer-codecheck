@@ -47,7 +47,6 @@ class RepositorySearchViewModelTest {
 
     @Test
     fun `初期状態はWaitingInputである`() {
-        // Arrange & Act
         val currentState = viewModel.uiState.value
 
         // Assert
@@ -76,7 +75,7 @@ class RepositorySearchViewModelTest {
         // Act
         viewModel.searchResults(query)
         
-        // コルーチンの完了を待つ
+        // Wait for coroutine to complete
         advanceUntilIdle()
 
         // Assert
@@ -97,7 +96,7 @@ class RepositorySearchViewModelTest {
         // Act
         viewModel.searchResults(query)
         
-        // コルーチンの完了を待つ
+        // Wait for coroutine to complete
         advanceUntilIdle()
 
         // Assert
@@ -168,7 +167,6 @@ class RepositorySearchViewModelTest {
 
         // Act & Assert - Second search
         viewModel.searchResults(secondQuery)
-        
         advanceUntilIdle()
         
         val secondState = viewModel.uiState.value
