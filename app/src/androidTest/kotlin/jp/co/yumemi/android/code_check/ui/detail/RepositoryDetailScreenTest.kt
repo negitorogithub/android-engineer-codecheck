@@ -7,7 +7,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import jp.co.yumemi.android.code_check.model.GithubRepository
-import jp.co.yumemi.android.code_check.model.Owner
 import jp.co.yumemi.android.code_check.ui.theme.CodeCheckTheme
 import org.junit.Rule
 import org.junit.Test
