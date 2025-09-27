@@ -29,7 +29,7 @@ class RepositoryDetailScreenTest {
     )
 
     @Test
-    fun repositoryDetailScreen_displays_repository_information() {
+    fun `RepositoryDetailScreenが正しく内容を表示する`() {
         composeTestRule.setContent {
             CodeCheckTheme {
                 RepositoryDetailScreen(
@@ -53,7 +53,7 @@ class RepositoryDetailScreenTest {
     }
 
     @Test
-    fun repositoryDetailScreen_displays_top_app_bar() {
+    fun `AppBarが正しく表示される`() {
         composeTestRule.setContent {
             CodeCheckTheme {
                 RepositoryDetailScreen(
@@ -69,7 +69,7 @@ class RepositoryDetailScreenTest {
     }
 
     @Test
-    fun repositoryDetailScreen_back_button_triggers_callback() {
+    fun `戻るボタンが押された時にコールバックが呼ばれる`() {
         var backButtonClicked = false
         
         composeTestRule.setContent {
@@ -87,7 +87,7 @@ class RepositoryDetailScreenTest {
     }
 
     @Test
-    fun repositoryDetailScreen_displays_owner_information() {
+    fun `OwnerIconが正しく表示される`() {
         composeTestRule.setContent {
             CodeCheckTheme {
                 RepositoryDetailScreen(
@@ -99,5 +99,4 @@ class RepositoryDetailScreenTest {
 
         composeTestRule.onNodeWithContentDescription("Owner Icon").assertIsDisplayed()
     }
-
 }
