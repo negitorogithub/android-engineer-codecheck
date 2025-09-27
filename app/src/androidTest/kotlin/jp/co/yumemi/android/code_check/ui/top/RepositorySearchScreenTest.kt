@@ -29,7 +29,7 @@ class RepositorySearchScreenTest {
     )
 
     @Test
-    fun repositorySearchScreen_displays_waiting_input_state() {
+    fun `入力待機状態が正しく表示される`() {
         composeTestRule.setContent {
             CodeCheckTheme {
                 RepositorySearchScreen(
@@ -46,7 +46,7 @@ class RepositorySearchScreenTest {
     }
 
     @Test
-    fun repositorySearchScreen_displays_error_state() {
+    fun `エラー状態が正しく表示される`() {
         composeTestRule.setContent {
             CodeCheckTheme {
                 RepositorySearchScreen(
@@ -63,7 +63,7 @@ class RepositorySearchScreenTest {
     }
 
     @Test
-    fun repositorySearchScreen_displays_success_state_with_repositories() {
+    fun `成功時に結果が正しく表示される`() {
         val repositories = listOf(sampleRepository)
         
         composeTestRule.setContent {
@@ -80,7 +80,7 @@ class RepositorySearchScreenTest {
     }
 
     @Test
-    fun repositorySearchScreen_displays_success_state_with_empty_repositories() {
+    fun `結果が空の場合に正しくメッセージが表示される`() {
         composeTestRule.setContent {
             CodeCheckTheme {
                 RepositorySearchScreen(
@@ -95,7 +95,7 @@ class RepositorySearchScreenTest {
     }
 
     @Test
-    fun repositorySearchScreen_repository_click_triggers_callback() {
+    fun `検索結果がクリックされた時にコールバックが呼ばれる`() {
         var clickedRepository: GithubRepository? = null
         val repositories = listOf(sampleRepository)
         
@@ -115,7 +115,7 @@ class RepositorySearchScreenTest {
     }
 
     @Test
-    fun repositorySearchScreen_retry_button_works() {
+    fun `失敗時のリトライボタンが押された時にコールバックが呼ばれる`() {
         var retryCallbackTriggered = false
         
         composeTestRule.setContent {
